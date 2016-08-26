@@ -68,14 +68,17 @@ public class game {
 	public int getNomKolodaPress(int mX,int mY)
 	{
 		int nom=1;
+		
+	if((mY>=15)&&(mY<=(30+72)))
+	{
 	if((mX>=30)&&(mX<=(30+72))) nom=0;
 	if((mX>=140)&&(mX<=(140+72))) nom=1;
 	if((mX>=360)&&(mX<=(360+72))) nom=2;
 	if((mX>=470)&&(mX<=(470+72))) nom=3;
 	if((mX>=580)&&(mX<=(580+72))) nom=4;
 	if((mX>=690)&&(mX<=(690+72))) nom=5;
-
-	else if((mX>=130)&&(mX<=(700+72)))
+	}
+	else if((mX>=130)&&(mY<=(700)))
 	{
 		
 	if((mX>=30)&&(mX<=110*7))

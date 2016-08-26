@@ -173,38 +173,36 @@ public class game {
 	//метод отрисовки всех стопок карт
 	public void drawKoloda(Graphics gr)
 	{
-
 		if(stopki[0].size()>0)
 		{
-			
 			stopki[0].get(stopki[0].size()-1).draw(gr);
-			
 		}
 	if(stopki[1].size()>1)
 	{
 		stopki[1].get(stopki[1].size()-2).draw(gr);
 		stopki[1].get(stopki[1].size()-1).draw(gr);
-		
-		
-		
-		
 	}
-		
 	else if(stopki[1].size()==1)
 	{
 		stopki[1].get(stopki[1].size()-1).draw(gr);	
-
-
-
 	}
-
-
-
-	
+	//Четыри домашних строчки
+	for(int i=2;i<=5;i++){
+		
+		if(stopki[i].size()>1){
+			stopki[i].get(stopki[i].size()-2).draw(gr);
+			stopki[i].get(stopki[i].size()-1).draw(gr);
+		}
+		else if (stopki[i].size()==1)
+		{
+			stopki[i].get(stopki[i].size()-1).draw(gr);
+		}
+		
+		
+	}
 	
 	}
 	
-	
-	
+
 
 }

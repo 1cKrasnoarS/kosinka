@@ -110,20 +110,35 @@ public class game {
 		}
 
 		else
-		{
-			
+		{	
 		nom=stopki[0].size()-1;
-
-
-
 		}
 
 		karta getKarta=stopki[0].get(nom);
 		getKarta=stopki[0].get(nom);
+		getKarta.tipRubashka = false;
+		getKarta.x+=110;
+		stopki[1].add(getKarta);
+		stopki[0].remove(nom);
+		
+		}
+		
+		else{
+		
+		int nomPosled = stopki[1].size()-1;
+		for(int i = nomPosled;i>=0;i--)
+		{
+			karta getKarta = stopki[1].get(i);
+			getKarta.tipRubashka=true;
+			getKarta.x-=110;
+			stopki[0].add(getKarta);
+		}
+		stopki[1].clear();
+		
+		pervVidacha=false;
 
 		}
-
-		}
+}
 	
 	//старт игры новая игра
 	public void start()

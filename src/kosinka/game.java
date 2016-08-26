@@ -40,6 +40,19 @@ public class game {
 		}
 		start();
 	}
+	//Раздача карт в нижние семь стопок
+	private void razdacha(){
+		int x = 30;
+		for (int i =6;i<13;i++)
+		{
+			//добавление карт в стопку
+			for(int j=6;j<=i;j++)
+			{
+				int rnd = (int)(Math.random()*)
+			}
+		}
+		
+	}
 	
 	//захват карты мышью
 	public void mouseDragged(int mX,int mY)

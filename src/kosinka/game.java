@@ -201,6 +201,16 @@ public class game {
 		
 	}
 	
+	//Нижние семь стопок
+	for(int i=6;i<13;i++){
+		if(stopki[i].size()>0){
+			for(int j=0;j<stopki[i].size();j++)
+			{
+				stopki[i].get(j).draw(gr);
+			}
+		}
+	}
+	
 	}
 	
 

@@ -306,18 +306,32 @@ public class game {
 		
 	}
 	
-	//Нижние семь стопок
-	for(int i=6;i<13;i++){
-		if(stopki[i].size()>0){
+	//ниже семь стопок
+	for(int i =6;i<13;i++){
+		
+		if(stopki[i].size()>0)
+		{
+			//перебираем все карты из стопки
 			for(int j=0;j<stopki[i].size();j++)
 			{
+				//если находи выбранную карту
+				//то прерываем цикл
+				if(stopki[i].get(j).vibrana==true)break;
+				//рисуем карты
 				stopki[i].get(j).draw(gr);
 			}
 		}
 	}
 	
+	//переносимые мышью карты
+	//если имеется выбранная стопка
+	if(nomStopki!=-1)
+	{
+		for(int i = nomKarti;i<stopki[nomStopki].size();i++)
+		{
+			stopki[nomStopki].get(i).draw(gr);
+		}
 	}
 	
-
-
+	}
 }

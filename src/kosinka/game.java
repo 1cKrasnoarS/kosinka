@@ -223,6 +223,7 @@ public class game {
 	}
 	else if(stopki[1].size()==1)
 	{
+		
 		stopki[1].get(stopki[1].size()-1).draw(gr);	
 	}
 	//Четыри домашних строчки

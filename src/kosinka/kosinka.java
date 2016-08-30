@@ -8,5 +8,6 @@ public class kosinka {
 		okno window = new okno();
 		
 	}
+	
 
 }

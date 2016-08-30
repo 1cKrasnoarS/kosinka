@@ -12,6 +12,7 @@ public class stopka {
 	//Конструктор класса
 	public stopka()
 	{
+		
 		//Создание пустого списка значений
 		lst = new ArrayList<karta>();
 	}

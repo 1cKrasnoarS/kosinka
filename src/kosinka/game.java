@@ -1,18 +1,18 @@
 package kosinka;
 
-//���������� �������
+//обработчик событий
 import java.awt.event.*;
 
-//��� ������ � ������ � ��������
+//для работы с окнами и кнопками
 import javax.swing.*;
 
-//��� ������ � ������� 
+//Для работы с файлами 
 import java.io.*;
 
-//��� ������ � ����������
+//для работы с картинками
 import javax.imageio.*;
 
-//��� ������ � ��������
+//для работы с графикой
 import java.awt.*;
 
 
@@ -27,6 +27,15 @@ public class game {
 	
 	public boolean endGame;
 	
+	//
+	private int nomStopki;
+	private int nomKarti;
+	private int dx,dy;
+	private int oldX,oldY;
+	private Timer tmEndGame;
+	
+	
+	
 	public game()
 	{
 		try
@@ -38,32 +47,132 @@ public class game {
 		for(int i =0;i<13;i++){
 			stopki[i] = new stopka();
 		}
+		
+		tmEndGame = new Timer(100,new ActionListener(){
+			//перебираем четыре домашниие стопки
+					@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+						for (int i=2;i<=5;i++)
+						{
+				//Получаем самую нижнюю карту
+				karta getKarta = stopki[i].get(0);
+				//нижнюю карту добавляем наверх
+				stopki[i].add(getKarta);
+				//удаляем нижнюю карту
+				stopki[i].remove(0);
+						}
+					}
+		});
+		
 		start();
 	}
-	//������� ���� � ������ ���� ������
+	//Раздача карт в нижние семь стопок
 	private void razdacha(){
 		int x = 30;
 		for (int i =6;i<13;i++)
 		{
-			//���������� ���� � ������
+			//добавление карт в стопку
 			for(int j=6;j<=i;j++)
 			{
-				int rnd = (int)(Math.random()*)
+				int rnd = (int)(Math.random()*stopki[0].size());
+				
+				//получаем эту карту
+				karta getKarta = stopki[0].get(rnd);
+				
+				//Если карта не самая верхняя
+				//то паказываем ее рубашкой
+				
+				if(j<i) getKarta.tipRubashka = true;
+				else getKarta.tipRubashka = false; //если карта верхняя
+				
+				//кординаты по x
+				getKarta.x = x;
+				//Каждую следующую карту располагаем ниже на 20 пикселей
+				getKarta.y=130+stopki[i].size()*20;
+				//добавляем карту в нижнюю стопку
+				stopki[i].add(getKarta);
+				//Удаляем карту из верхней левой стопки
+				stopki[0].remove(rnd);
+			
 			}
+			//Увеличиваем координату по X
+			//(смещаемся правее)
+			
+			x+=110;
 		}
 		
 	}
 	
-	//������ ����� �����
+	
+	//Проверка оканчания игры
+	private void testEndGame()
+	{
+		if( (stopki[2].size()==13)&&
+			(stopki[3].size()==13)&&
+			(stopki[4].size()==13)&&
+			(stopki[5].size()==13))
+		{
+			endGame = true;
+			tmEndGame.start();
+		}
+	}
+	
+	//Автоматическое открытие карт в нижних стопках
+	private void openKarta(){
+		//Перебираем все нижние стопки карт
+		for(int i =6;i<=12;i++)
+		{
+			if (stopki[i].size()>0)
+			{
+				//номер последненей карты в стопке
+				int nomPoseld = stopki[i].size()-1;
+				//получаем последнюю карту
+				karta getKarta = stopki[i].get(nomPoseld);
+				//если карты отображается рубашкой
+				//то открываем ее
+				if(getKarta.tipRubashka==true)getKarta.tipRubashka = false;
+			}
+		}
+	}
+	
+	//захват карты мышью
 	public void mouseDragged(int mX,int mY)
-	{}
-	//��� ����� �������
+	{
+		//если стопка выбрана
+		if(nomStopki>=0){
+			//получаем выбранную карту
+			karta getKarta = stopki[nomStopki].get(nomKarti);
+			//именяем координаты карты по курсору мышы
+			getKarta.x = mX-dx;
+			getKarta.y = mY-dy;
+			
+			//Ограничение области переноса карт
+			if(getKarta.x<0)getKarta.x=0;
+			if(getKarta.x>720)getKarta.x=720;
+			if(getKarta.y<0)getKarta.y = 0;
+			if(getKarta.y>650)getKarta.y=650;
+			
+			//Все оставльные карыт в переносимой группе карт
+			//размещаем с сдвигом вниз на 20 пикселей
+			int y =20;
+			for (int i =nomKarti+1;i<stopki[nomStopki].size();i++)
+			{
+				stopki[nomStopki].get(i).x = getKarta.x;
+				stopki[nomStopki].get(i).y = getKarta.y+y;
+				y+=20;
+			}
+		}
+		
+		
+	}
+	//при одном нажатии
 	public void mousePressed(int mX,int mY)
 	{}
-	//��� ������� �������
+	//при двойном нажатии
 	public void mouseDoubalePressed(int mX,int mY)
 	{}
-	//��� ���������� ����� ������ ����
+	//при отпускании левой кнопки мыши
 	public void mouseReleased(int mX,int mY)
 	{
 		int nom=getNomKolodaPress(mX,mY);
@@ -77,7 +186,7 @@ public class game {
 	}
 
 	}
-	//����������� ������ �� ����� ������ �����
+	//определении стопки на какую нажали мышью
 	public int getNomKolodaPress(int mX,int mY)
 	{
 		int nom=1;
@@ -112,7 +221,7 @@ public class game {
 	return nom;
 	}
 	
-	//������ ���� �� ������� ����� ������
+	//выдача карт из верхней левой стопки
 	private void vidacha()
 	{
 		
@@ -156,7 +265,7 @@ public class game {
 		}
 }
 	
-	//����� ���� ����� ����
+	//старт игры новая игра
 	public void start()
 	{
 		for (int i=0;i<13;i++)	
@@ -167,13 +276,22 @@ public class game {
 		}
 
 		load();
-
+		razdacha();
+		
+		
+		
 		endGame=false;
 		pervVidacha=true;
+		
+		
+		//Номер выбранной карты
+		nomKarti = -1;
+		//номер выбранной стопки
+		nomStopki = -1;
 
 		}
 	
-	//�������� ����������� �� ������
+	//загрузка изображений из колоды
 	private void load()	
 	{
 		for (int i =1;i<=52;i++){
@@ -183,7 +301,7 @@ public class game {
 		
 	}
 
-	//����� ��������� ���� ������ ����
+	//метод отрисовки всех стопок карт
 	public void drawKoloda(Graphics gr)
 	{
 		if(stopki[0].size()>0)
@@ -197,9 +315,10 @@ public class game {
 	}
 	else if(stopki[1].size()==1)
 	{
+		
 		stopki[1].get(stopki[1].size()-1).draw(gr);	
 	}
-	//������ �������� �������
+	//Четыри домашних строчки
 	for(int i=2;i<=5;i++){
 		
 		if(stopki[i].size()>1){
@@ -214,18 +333,32 @@ public class game {
 		
 	}
 	
-	//������ ���� ������
-	for(int i=6;i<13;i++){
-		if(stopki[i].size()>0){
+	//ниже семь стопок
+	for(int i =6;i<13;i++){
+		
+		if(stopki[i].size()>0)
+		{
+			//перебираем все карты из стопки
 			for(int j=0;j<stopki[i].size();j++)
 			{
+				//если находи выбранную карту
+				//то прерываем цикл
+				if(stopki[i].get(j).vibrana==true)break;
+				//рисуем карты
 				stopki[i].get(j).draw(gr);
 			}
 		}
 	}
 	
+	//переносимые мышью карты
+	//если имеется выбранная стопка
+	if(nomStopki!=-1)
+	{
+		for(int i = nomKarti;i<stopki[nomStopki].size();i++)
+		{
+			stopki[nomStopki].get(i).draw(gr);
+		}
 	}
 	
-
-
+	}
 }

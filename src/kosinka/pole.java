@@ -29,11 +29,11 @@ public class pole extends JPanel {
 			int mX = e.getX();
 			int mY = e.getY();
 			
-			//если нажата левая клавиша мыши один раз
+			//РµСЃР»Рё РЅР°Р¶Р°С‚Р° Р»РµРІР°СЏ РєР»Р°РІРёС€Р° РјС‹С€Рё РѕРґРёРЅ СЂР°Р·
 			if((e.getButton()==1)&&(e.getClickCount()==1)){
 				newGame.mousePressed(mX, mY);
 			}
-		//если нажата левая клавиша мыши два раза
+		//РµСЃР»Рё РЅР°Р¶Р°С‚Р° Р»РµРІР°СЏ РєР»Р°РІРёС€Р° РјС‹С€Рё РґРІР° СЂР°Р·Р°
 			else if ((e.getButton()==1)&&(e.getClickCount()==2)){
 				newGame.mouseDoubalePressed(mX, mY);
 		}
@@ -41,7 +41,7 @@ public class pole extends JPanel {
 		}
 		}
 		
-		//при отпускании кнопки мыши
+		//РїСЂРё РѕС‚РїСѓСЃРєР°РЅРёРё РєРЅРѕРїРєРё РјС‹С€Рё
 		public void mouseReleased(MouseEvent e)
 		{
 			if(newGame.endGame==false){
@@ -77,7 +77,7 @@ public class pole extends JPanel {
 		{}
 	}
 	
-	//Конструтор класса pole
+	//РљРѕРЅСЃС‚СЂСѓС‚РѕСЂ РєР»Р°СЃСЃР° pole
 	public pole(){
 				
 		addMouseListener(new myMouse1());
@@ -94,7 +94,7 @@ public class pole extends JPanel {
 		
 		
 		btn1 = new JButton();
-		btn1.setText("Новая Игра");
+		btn1.setText("РќРѕРІР°СЏ РРіСЂР°");
 		btn1.setForeground(Color.BLUE);
 		btn1.setFont(new Font("serif",0,20));
 		btn1.setBounds(820,50,150,50);
@@ -110,10 +110,10 @@ public class pole extends JPanel {
 		add(btn1);
 		
 		btn2 = new JButton();
-		btn2.setText("Выход");   //изменено
-		btn2.setForeground(Color.RED); //измено
+		btn2.setText("Р’С‹С…РѕРґ");   //РёР·РјРµРЅРµРЅРѕ
+		btn2.setForeground(Color.RED); //РёР·РјРµРЅРѕ
 		btn2.setFont(new Font("serif",0,20));
-		btn2.setBounds(820,150,150,50); //измено
+		btn2.setBounds(820,150,150,50); //РёР·РјРµРЅРѕ
 		btn2.addActionListener(new ActionListener() {
 			
 			@Override
@@ -148,6 +148,7 @@ public class pole extends JPanel {
 		for(int i = 0;i<7;i++){
 			if(i!=2)gr.drawRect(30+i*110,5,72,97);
 		}
+		
 		
 		for (int i = 0;i<7;i++){
 			gr.drawRect(30+i*110, 130, 72, 97);

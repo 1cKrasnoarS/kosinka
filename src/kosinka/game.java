@@ -27,6 +27,15 @@ public class game {
 	
 	public boolean endGame;
 	
+	//
+	private int nomStopki;
+	private int nomKarti;
+	private int dx,dy;
+	private int oldX,oldY;
+	private Timer tmEndGame;
+	
+	
+	
 	public game()
 	{
 		try
@@ -38,6 +47,24 @@ public class game {
 		for(int i =0;i<13;i++){
 			stopki[i] = new stopka();
 		}
+		
+		tmEndGame = new Timer(100,new ActionListener(){
+			//перебираем четыре домашниие стопки
+					@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+						for (int i=2;i<=5;i++)
+						{
+				//Получаем самую нижнюю карту
+				karta getKarta = stopki[i].get(0);
+				//нижнюю карту добавляем наверх
+				stopki[i].add(getKarta);
+				//удаляем нижнюю карту
+				stopki[i].remove(0);
+						}
+					}
+		});
+		
 		start();
 	}
 	//Раздача карт в нижние семь стопок

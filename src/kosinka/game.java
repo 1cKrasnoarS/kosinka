@@ -118,6 +118,24 @@ public class game {
 		}
 	}
 	
+	//Автоматическое открытие карт в нижних стопках
+	private void openKarta(){
+		//Перебираем все нижние стопки карт
+		for(int i =6;i<=12;i++)
+		{
+			if (stopki[i].size()>0)
+			{
+				//номер последненей карты в стопке
+				int nomPoseld = stopki[i].size()-1;
+				//получаем последнюю карту
+				karta getKarta = stopki[i].get(nomPoseld);
+				//если карты отображается рубашкой
+				//то открываем ее
+				if(getKarta.tipRubashka==true)getKarta.tipRubashka = false;
+			}
+		}
+	}
+	
 	//захват карты мышью
 	public void mouseDragged(int mX,int mY)
 	{}
@@ -237,6 +255,12 @@ public class game {
 		
 		endGame=false;
 		pervVidacha=true;
+		
+		
+		//Номер выбранной карты
+		nomKarti = -1;
+		//номер выбранной стопки
+		nomStopki = -1;
 
 		}
 	

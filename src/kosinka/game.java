@@ -138,7 +138,34 @@ public class game {
 	
 	//захват карты мышью
 	public void mouseDragged(int mX,int mY)
-	{}
+	{
+		//если стопка выбрана
+		if(nomStopki>=0){
+			//получаем выбранную карту
+			karta getKarta = stopki[nomStopki].get[nomKarti];
+			//именяем координаты карты по курсору мышы
+			getKarta.x = mX-dx;
+			getKarta.y = mY-dy;
+			
+			//Ограничение области переноса карт
+			if(getKarta.x<0)getKarta.x=0;
+			if(getKarta.x>720)getKarta.x=720;
+			if(getKarta.y<0)getKarta.y = 0;
+			if(getKarta.y>650)getKarta.y=650;
+			
+			//Все оставльные карыт в переносимой группе карт
+			//размещаем с сдвигом вниз на 20 пикселей
+			int y =20;
+			for (int i =nomKarti+1;i<stopki[nomStopki].size();i++)
+			{
+				stopki[nomStopki].get(i).x = getKarta.x;
+				stopki[nomStopki].get(i).y = getKarta.y+y;
+				y+=20;
+			}
+		}
+		
+		
+	}
 	//при одном нажатии
 	public void mousePressed(int mX,int mY)
 	{}

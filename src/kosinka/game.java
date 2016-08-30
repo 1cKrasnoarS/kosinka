@@ -142,7 +142,7 @@ public class game {
 		//если стопка выбрана
 		if(nomStopki>=0){
 			//получаем выбранную карту
-			karta getKarta = stopki[nomStopki].get[nomKarti];
+			karta getKarta = stopki[nomStopki].get(nomKarti);
 			//именяем координаты карты по курсору мышы
 			getKarta.x = mX-dx;
 			getKarta.y = mY-dy;

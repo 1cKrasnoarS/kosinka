@@ -104,6 +104,20 @@ public class game {
 		
 	}
 	
+	
+	//Проверка оканчания игры
+	private void testEndGame()
+	{
+		if( (stopki[2].size()==13)&&
+			(stopki[3].size()==13)&&
+			(stopki[4].size()==13)&&
+			(stopki[5].size()==13))
+		{
+			endGame = true;
+			tmEndGame.start();
+		}
+	}
+	
 	//захват карты мышью
 	public void mouseDragged(int mX,int mY)
 	{}

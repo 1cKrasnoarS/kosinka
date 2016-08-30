@@ -49,6 +49,9 @@ public class game {
 			for(int j=6;j<=i;j++)
 			{
 				int rnd = (int)(Math.random()*stopki[0].size());
+				
+				//получаем эту парту
+				karta getKarta = stopki[0].get(rnd);
 			}
 		}
 		

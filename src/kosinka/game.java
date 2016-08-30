@@ -48,7 +48,7 @@ public class game {
 			//добавление карт в стопку
 			for(int j=6;j<=i;j++)
 			{
-				int rnd = (int)(Math.random()*)
+				int rnd = (int)(Math.random()*stopki[0].size());
 			}
 		}
 		

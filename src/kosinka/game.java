@@ -103,6 +103,98 @@ public class game {
 		}
 		
 	}
+	//Установка выбранной карты
+	
+	private void setVibrane(int nom, int mX, int mY){
+		
+		//Если верхние стопки (1,2,3,4,5)
+		
+		if((nom>=1)&&(nom<=5))
+		{
+			//Если в стопке есть карыт
+			if(stopki[nom].size()>0)
+			{
+				//Получаем номер верхней карты
+				int nomPosled = stopki[nom].size()-1;
+				
+				//получаем верхнюю карту
+				karta getKarta = stopki[nom].get(nomPosled);
+				//Устанавливаем признак выбранной карты
+				getKarta.vibrana = true;
+				//Номер выбранной карты
+				nomKarti = nomPosled;
+				//Номер выбранной стопки
+				nomStopki = nom;
+				//Смещенния курсора мыши
+				dx= mX - getKarta.x;
+				dy= mY - getKarta.y;
+				
+				//Запоминаем текущие координаты карты
+				oldX = getKarta.x;
+				oldY = getKarta.y;		
+			}
+		}
+		//Если нижние семь стопок. 
+		else if ((nom>=6)&&(nom<=12))
+		{
+			//Если в стопке есть карты
+			if(stopki[nom].size()>0)
+			{
+				//Получаем номер верхней карты
+				int nomPosled = stopki[nom].size()-1;
+				//Получаем верхнююю карту
+				karta getKarta = stopki[nom].get(nomPosled);
+				int nomVibrana = -1;
+				//Если выбрана самая верхняя карта
+				if((mY>=getKarta.y)&&(mY<=(getKarta.y+97)))
+				{
+					nomVibrana = nomPosled;
+				}
+				//Если выбрана НЕ самая верхняя карта
+				else if (mY<getKarta.y)
+				{
+					//вычисляем номер выбранной карты 
+					nomVibrana = (mY-130)/20;
+					if(stopki[nom].get(nomVibrana).tipRubashka==true)
+					{
+						nomVibrana = -1;
+					}
+				}
+				//Если карты выбрана
+				if(nomVibrana!=-1){
+					//Получаем выбранную карту
+					karta getKartaVibrana = stopki[nom].get(nomVibrana);
+				//Если карта открыта рубашкой
+					if(getKartaVibrana.tipRubashka==false){
+						//Установление признак выбранной 
+						getKartaVibrana.vibrana=true;
+						//Номер выбранной карты
+						nomKarti = nomVibrana;
+						//Номер выбранной стопки
+						nomStopki = nom;
+							//Смещения курсора мыщи
+						dx = mX - getKartaVibrana.x;
+						dy = mY - getKartaVibrana.y;
+						
+						//Запоминанием текущие координаты карты
+						oldX = getKartaVibrana.x;
+						oldY = getKartaVibrana.y;
+						
+						
+					}
+				
+				}
+				
+			}
+		}
+		
+		
+	}
+	
+	
+	
+	
+	
 	
 	
 	//Проверка оканчания игры
@@ -136,7 +228,7 @@ public class game {
 		}
 	}
 	
-	//захват карты мышью
+	/*//захват карты мышью
 	public void mouseDragged(int mX,int mY)
 	{
 		//если стопка выбрана
@@ -165,13 +257,101 @@ public class game {
 		}
 		
 		
-	}
+	}*/
 	//при одном нажатии
 	public void mousePressed(int mX,int mY)
-	{}
+	{
+		//определяем номер стопки
+		int nom = getNomKolodaPress(mX, mY);
+		//Устанавливаем выбранную карту
+		setVibrane(nom, mX, mY);
+		
+	}
 	//при двойном нажатии
 	public void mouseDoubalePressed(int mX,int mY)
-	{}
+	{
+		//определяем номер стопки
+		int nom = getNomKolodaPress(mX, mY);
+		//Если это нижняя стопка или с номером 1
+		if ((nom==1)||((nom>=6)&&(nom<=12)))
+		{
+			//Есил в стопке есть карты
+			if(stopki[nom].size()>0)
+			{
+				//Номер верхней карты
+				int nomPosled = stopki[nom].size()-1;
+				//Получаем верхнюю карту
+				karta getKarta = stopki[nom].get(nomPosled);
+				
+				if((mY>=getKarta.y)&&(mY<=(getKarta.y+97))
+				{//Перебираем четыре домашнии стопки
+					for(int i =2;i<=6;i++){
+						//Результат поска подходящей домащней стопки
+						int rez = -1;
+						//Если домашняя стопка пустая
+						if(stopki[i].size()==0)
+						{
+							//Если переносимая карта - туз
+							if (getKarta.tipKarta==12)
+							{
+								//запоминаем номер домашней стопки
+								rez=i;
+								
+							}
+							//Если домашняя стопка уже не пустая
+							else
+							{
+								//Получаем номер последней карты в домашений стопке
+								int nomPosled2 = stopki[i].size()-1;
+								//Получаем саму карту
+								karta getKarta2 = stopki[i].get(nomPosled2);
+								//Если эта карта в домашней стопке - туз, переносим и их масти совпадают
+								if((getKarta2.tipKarta==12)&&
+								(getKarta.tipKarta==0))
+								{
+									//Запоминаем номер домашней стопки
+									rez =i;
+								}
+								//Если эта карта в домашней стопке НЕ туз,
+								//а их масти совпадают
+								else if((getKarta2.tipKarta>=0)&&(getKarta2.tipKarta<11)&&
+								(getKarta.mast==getKarta2.mast))
+									{
+										//Если переносимая карта на одно уровень старше
+					if((getKarta2.tipKarta+1==getKarta.tipKarta))
+					{
+						//запоминаем номер домашней стопки
+						rez=i;
+										}
+									}
+							
+							}
+							//Если удалось найти подходящую домашнюю стопку
+							if(rez>=0)
+							{
+								//Изменяем координаты на домашнюю стопку
+								getKarta.x =(110*(rez+1))+30;
+								getKarta.y = 15;
+								//Добавшяем в домашняя стопка
+								stopki[rez].add(getKarta);
+								//Удаляем из старой стопки
+								stopki[nom].remove(nomPosled);
+								//Проверяем конец игры
+								testEndGame();
+								//Прерываем цикл
+								break;
+							}
+						}
+					}
+					
+				}
+			}
+			
+			//Отрываем верхняя карту 
+			openKarta();
+			
+		}
+	}
 	//при отпускании левой кнопки мыши
 	public void mouseReleased(int mX,int mY)
 	{
@@ -186,6 +366,82 @@ public class game {
 	}
 
 	}
+	
+	
+	private boolean testPerenos(int nom1, int nom2){
+		//Результат проверки
+		boolean rez = false;
+		//Карта которую нужно пеносить
+		karta getKarta1 = stopki[nom1].get(nomKarti);
+		karta getKarta2 = null;
+		
+		//Если карта в стопки
+		if (stopki[nom2].size()>0)
+				{
+					//Получаем верхнюю карту
+			getKarta2 =stopki[nom2].get(stopki[nom2].size()-1);
+				}
+		//Если четыре домашние стопки
+		if((nom2>=2)&&(nom2<=5)){
+			if(nomKarti==(stopki[nom1].size()-1))
+			{
+				//Если стопка была пустая
+				if(getKarta2==null)
+				{
+					//Если переносимая карта ТУЗ
+					if(getKarta1.tipKarta==12)rez=true;
+								
+				}
+				//Если в домашней стопке ТУЗ, переносится
+				//ДВОЙКА и масти совпадают
+				else if ((getKarta2.tipKarta==12)
+						&&(getKarta1.mast==getKarta2.mast)
+						&&(getKarta1.tipKarta==0))
+				{
+					rez = true;
+				}
+				
+				//Если в домашней стопке не ТУЗ
+				//но масти совпадают
+				else if((getKarta2.tipKarta>=0)
+						&&(getKarta2.tipKarta<11)
+						&&(getKarta1.mast==getKarta2.mast))
+				{
+					//Если резултаты проверки положительный
+					if(rez==true)
+					{
+						//Переносим карту в домашнюю стопку
+						getKarta1.x = (110*(nom2+1))+30;
+						getKarta1.y = 15;
+						stopki[nom2].add(getKarta1);
+						stopki[nom1].remove(nomKarti);
+						testEndGame();
+					}
+				}					
+			}
+			//Если перенос в нижние стопки
+			if((nom2>=6)&&(nom2<12))
+			{
+				int x = 30+(nom2-6)*110;
+				int y = 130;
+				//Если нижняя стопка была пустая
+				if(getKarta2==null)
+				{
+					//Если переносится КОРОЛЬ
+					if(getKarta1.tipKarta==11)rez=true;
+				}
+				else //Если была НЕ пустая
+				{
+					//Если верхняя
+				}
+			}
+		}
+		
+		
+		
+	}
+	
+	
 	//определении стопки на какую нажали мышью
 	public int getNomKolodaPress(int mX,int mY)
 	{
@@ -361,4 +617,39 @@ public class game {
 	}
 	
 	}
+	///При захвате карты мышью
+	
+	public void mouseDragged(int mX,int mY)
+	{
+		if (nomStopki>=0)
+		{
+			//Полуычаем выбранныую карту
+			karta getKarta = stopki[nomStopki].get(nomKarti);
+			//Изменяем координаты карты по курсору мышки
+			getKarta.x = mX-dx;
+			getKarta.y = mY-dy;
+			
+			//Ограничение области переноса карт
+			if(getKarta.x<0) getKarta.x=0;
+			if(getKarta.x>720) getKarta.x = 720;
+			if(getKarta.y<0) getKarta.y = 0;
+			if(getKarta.y>650) getKarta.y = 650;
+			
+			//Все остальные карты в переносимой группе
+			//размещаем со сдвигом вниз на 20 пикселей
+			
+			int y =20;
+			for(int i=nomKarti+1;i<stopki[nomStopki].size();i++)
+			{
+				stopki[nomStopki].get(i).x = getKarta.x;
+				stopki[nomStopki].get(i).y = getKarta.y +y;
+				y+=20; //  
+			}
+		}
+	}
+	
+	
+	
+	
+	
 }
